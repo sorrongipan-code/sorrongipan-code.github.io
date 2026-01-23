@@ -1,0 +1,448 @@
+/* /assets/css/style.css */
+
+/*
+  UI redesign tokens (dark, dense) inspired by V2/concept.
+  We keep existing variables for backward compatibility, but prefer the new tokens.
+*/
+
+:root {
+  /* New tokens */
+  --bg-main: #09090b;
+  --bg-panel: #121212;
+  --bg-hover: #18181b;
+  --bg-element: #27272a;
+
+  --border-subtle: #27272a;
+  --border-strong: #3f3f46;
+
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #52525b;
+
+  --accent: #ffffff;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .35);
+  --shadow-2: 0 10px 30px rgba(0, 0, 0, .45);
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Backward-compatible existing vars (mapped) */
+  --color-background-page: var(--bg-main);
+  --color-background-content: var(--bg-main);
+  --color-background-card: var(--bg-panel);
+  --color-background-input: var(--bg-panel);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-tertiary);
+  --color-text-accent: var(--accent);
+  --color-accent-primary: var(--accent);
+  --color-accent-primary-hover: #ffffff;
+  --color-border-subtle: var(--border-subtle);
+  --color-border-focus: rgba(255, 255, 255, 0.2);
+  --ui-border-radius-base: var(--r-sm);
+  --ui-border-radius-lg: var(--r-md);
+  --ui-border-radius-full: 9999px;
+  --ui-shadow-md: var(--shadow-1);
+  --ui-shadow-lg: var(--shadow-2);
+  --ui-shadow-xl: 0 18px 60px rgba(0,0,0,.55);
+  --font-family-sans: var(--font-sans);
+}
+
+/* --- 1. Global Styles & Resets --- */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll from animations/transforms */
+}
+
+/* --- 2. Custom Scrollbar (Webkit) --- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+  border-radius: var(--ui-border-radius-full);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: var(--ui-border-radius-full);
+  border: 2px solid var(--bg-main);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* --- 3. Typography Defaults --- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700; /* Tailwind: font-bold by default for headings is often good */
+}
+h1 { font-size: 2.25rem; line-height: 2.5rem; /* Tailwind: text-4xl */ } /* Example, Tailwind classes preferred */
+h2 { font-size: 1.875rem; line-height: 2.25rem; /* Tailwind: text-3xl */ }
+
+p {
+  line-height: 1.65; /* Slightly more spacious line height for paragraphs */
+}
+
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+a:hover {
+  color: var(--text-primary);
+  opacity: 0.9;
+  /* text-decoration: underline; */ /* Optional */
+}
+
+/* --- 4. Form Element Styling --- */
+/*
+  IMPORTANT:
+  This project relies heavily on Tailwind utility classes for forms.
+  Avoid using broad selectors like input[type="text"] because they override Tailwind
+  styles (attribute selector specificity beats utility classes).
+  Use .form-input if you need a reusable baseline without breaking component styles.
+*/
+.form-input,
+textarea.form-input {
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--ui-border-radius-base);
+  padding: 0.65rem 0.85rem; /* Adjust padding */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  width: 100%; /* Default to full width, can be overridden by Tailwind width utilities */
+}
+.form-input::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+.form-input:focus,
+textarea.form-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--bg-panel);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+/* Force option text to be readable on OS default (white) dropdown background */
+select.custom-select option {
+  color: #000;
+}
+
+/* --- 5. Button Styles (Example of component classes) --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.25rem; /* py-2.5 px-5 */
+  font-weight: 500; /* medium */
+  text-align: center;
+  border-radius: var(--ui-border-radius-base);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-out;
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:focus {
+  outline: none;
+  /* Tailwind's focus:ring-2 focus:ring-offset-2 is often preferred and can be applied directly */
+  /* If using custom focus here, ensure it's accessible */
+  box-shadow: 0 0 0 3px var(--color-border-focus); /* Example custom focus ring */
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: var(--bg-element);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+.btn-primary:hover {
+  background-color: var(--bg-hover);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn-secondary {
+  background-color: var(--bg-panel);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--text-primary);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border-color: transparent;
+}
+.btn-ghost:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  font-size: 0.875rem; /* text-sm */
+}
+.btn-lg {
+  padding: 0.875rem 1.75rem; /* py-3.5 px-7 */
+  font-size: 1.125rem; /* text-lg */
+}
+
+/* --- 6. Pagination Styles --- */
+.pagination-link,
+.pagination-link-disabled,
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px; /* Consistent size */
+  height: 38px;
+  padding: 0 0.5rem;
+  margin: 0 0.125rem; /* Small gap */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* medium */
+  line-height: 1;
+  text-decoration: none;
+  border-radius: var(--ui-border-radius-base);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  user-select: none;
+}
+
+.pagination-link {
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: 1px solid var(--border-subtle);
+}
+.pagination-link:hover:not(.pagination-link-active) {
+  color: var(--text-primary);
+  background-color: var(--bg-panel);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.pagination-link-active {
+  color: var(--text-primary);
+  background-color: var(--bg-element);
+  border-color: rgba(255, 255, 255, 0.18);
+  font-weight: 600; /* semibold */
+}
+.pagination-link-active:hover { /* Keep active state on hover */
+  color: var(--text-primary);
+  background-color: var(--bg-element);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.pagination-link-disabled {
+  color: var(--color-text-muted);
+  background-color: transparent;
+  border: 1px solid transparent; /* Or var(--color-border-subtle) with opacity */
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+}
+
+.pagination-prev-next { /* For "Prev" / "Next" text links */
+  padding: 0 0.75rem;
+}
+
+/* --- 7. Video Card Specifics (if any beyond Tailwind/inline) --- */
+/* .video-card-container is styled with inline styles for dynamic shadow/transform from config. */
+/* If JS toggles classes for hover, those styles would go here. */
+/* Example: */
+/* .video-card-container.is-hovered { */
+/*   transform: translateY(-5px); */
+/*   box-shadow: var(--ui-shadow-xl); */
+/* } */
+
+.video-card .lazy { /* Initial state for lazy loaded images */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Smooth fade-in */
+}
+.video-card .lazy.loaded { /* State after JS loads the image */
+  opacity: 1;
+}
+
+/* --- 8. Prose / Content Styling --- */
+/*
+  Tailwind's @tailwindcss/typography plugin is excellent.
+  If using CDN, you can customize its variables as shown in header.php's :root.
+  This section is for any *additional* prose overrides or specific elements
+  within content areas not covered by the plugin or needing finer control.
+*/
+.video-description a { /* Specific to links within video description */
+  /* color: var(--color-text-accent); /* Already handled by prose vars */
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-underline-offset: 2px;
+}
+.video-description a:hover {
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* --- 9. Mobile Menu (if you build one with JS) --- */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+  z-index: 40; /* Below menu, above content */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0s 0.3s linear;
+}
+.mobile-menu-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 80%; /* Or a max-width */
+  max-width: 300px;
+  background-color: var(--bg-main);
+  z-index: 50;
+  padding: 1.5rem; /* p-6 */
+  box-shadow: var(--ui-shadow-xl);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+.mobile-menu.is-open {
+  transform: translateX(0) !important;
+}
+.mobile-menu > div {
+  height: 100%;
+}
+.mobile-menu.is-open {
+  transform: translateX(0);
+}
+.mobile-menu-nav a {
+  display: block;
+  padding: 0.75rem 0; /* py-3 */
+  font-size: 1.125rem; /* text-lg */
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: color 0.2s ease-in-out;
+}
+.mobile-menu-nav a:hover,
+.mobile-menu-nav a.is-active { /* Example active state */
+  color: var(--color-text-primary);
+}
+.mobile-menu-nav a i { /* icon in menu (phosphor or other) */
+  margin-right: 0.75rem; /* mr-3 */
+  width: 1.25rem; /* w-5, for alignment */
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* --- 10. Helper / Animation Classes --- */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Add more as needed */
+
+/* Lazy Loading Image Transition */
+img.lazy { /* Initial state for lazy loaded images before JS sets src */
+  opacity: 0;
+}
+img.lazy.loaded { /* State after JS has set the src and added 'loaded' class */
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out; /* Smooth fade-in once loaded */
+}
+
+/* Ensure the onerror fallback image (placeholder) is also visible if it had opacity-0 */
+img[data-src].loaded { /* This covers images that might have failed and hit onerror but still got 'loaded' class */
+    opacity: 1 !important; /* Ensure visibility */
+}
+
+/* --- Text Selection Styles --- */
+::selection {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: var(--text-primary);
+}
+::-moz-selection { /* Firefox */
+  background-color: rgba(255, 255, 255, 0.18);
+  color: var(--text-primary);
+}
+
+/* Small utility for mono metadata */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* --- 11. View Toggle: List View (homepage) --- */
+/*
+  We keep the same card markup but allow toggling the container class `is-list`
+  via JS. This avoids dead “View Toggle” buttons.
+*/
+.video-grid.is-list {
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px !important;
+}
+
+.video-grid.is-list article {
+  flex-direction: row !important;
+}
+
+.video-grid.is-list article > a {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.video-grid.is-list article > a > div:first-child {
+  flex: 0 0 220px;
+  max-width: 220px;
+}
+
+@media (max-width: 640px) {
+  .video-grid.is-list article > a {
+    gap: 10px;
+  }
+  .video-grid.is-list article > a > div:first-child {
+    flex-basis: 160px;
+    max-width: 160px;
+  }
+}
+
+/* --- 12. Autoplay toggle (video page) --- */
+.autoplay-toggle-track {
+  outline: none;
+}
+.autoplay-toggle-track:focus {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
+}

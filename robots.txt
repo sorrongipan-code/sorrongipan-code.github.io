@@ -1,0 +1,7 @@
+# robots.txt for https://upit.ryuen.ca
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://upit.ryuen.ca/sitemap.xml
